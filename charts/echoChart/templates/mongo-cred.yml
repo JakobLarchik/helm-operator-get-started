@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.mongoSecret.name }}
+type: Opaque
+data:
+  MONGODBURL: {{- printf "mongodb://%s:%s@%s-%s-0.%s-%s-headless.%s.svc.cluster.local/%s" .Values.mongodatabase.auth.username .Values.mongodatabase.auth.password  .Release.Name .Values.mongodatabase.name  .Release.Name .Values.mongodatabase.name .Release.Namespace  .Values.mongodatabase.auth.database  | b64enc | quote | indent 2 }}

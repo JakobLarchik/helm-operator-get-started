@@ -1,0 +1,53 @@
+app:
+  name: echoapp-deploy
+  labels:
+    app: echoapp
+    version: v5
+  replicaCount: 2
+  container:
+    name: echoapp
+    image: gcr.io/arcane-sentinel-320611/echo 
+    tag: latest
+    port: 3000
+  requests:
+    memory: "64Mi"
+    cpu: "250m"
+  limits:
+    memory: "128Mi"
+    cpu: "450m"
+
+mongoSecret:
+  name: mongodb-secret
+#  url: bW9uZ29kYjovL3Jvb3Q6cGFzc3dvcmRAbW9uZ28tbW9uZ29kYi1oZWFkbGVzczoyNzAxNy9lY2hvP2F1dGhTb3VyY2U9YWRtaW4=
+  
+config: 
+  name: echoconfig
+  port: "\"3000\""
+  loglevel: "info"
+  persist: "\"true\""
+  dbname: "thebigbrother"
+  
+service:
+  name: echoservice
+  port: 80
+  
+clusterIssuer:
+  name: letsencrypt
+  namespace: cert-manager
+  email: kobisha11@gmail.com
+  server: 'https://acme-v02.api.letsencrypt.org/directory'
+  keyname: echo-issuer-account-key
+  
+ingress:
+  name: echo-ingress
+  #namespace: default
+  host: task0kobi.tk #to be changed later
+
+mongodatabase:
+  name: mongodatabase
+  architecture: "replicaset"
+  auth:
+    username: yossi
+    password: bublil
+    database: thebigbrother
+
